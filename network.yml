@@ -1,0 +1,34 @@
+---
+- name: Azure Webserver Infrastructure
+  hosts: localhost
+  vars:
+#    resourcegroup: "webserver"
+#    location: "northeurope"
+#    virtualnetwork_name: "webserver-net"
+#    project_name: "ansible"
+#    cidr: "10.0.0.0/16"
+#    webserver_subnet: "webserver_subnet"
+#    cidr_public_a: "10.0.1.0/24"
+#    availabilityset: "webserver_avail"
+#    webserver_nsg: "webserver_nsg"
+#    domain_sub: "web"
+
+  tasks:
+  - name: create Resource Group
+    azure_rm_resourcegroup:
+      name: "{{ resourcegroup }}"
+      location: "{{ location }}"
+
+  - name: Create a virtual network
+    azure_rm_virtualnetwork:
+      resource_group: "{{ resourcegroup }}"
+      name: "{{ virtualnetwork_name }}"
+      address_prefixes_cidr:
+          - "{{ cidr }}"
+
+  - name: Create a subnet
+    azure_rm_subnet:
+      resource_group: "{{ resourcegroup }}"
+      virtual_network_name: "{{ virtualnetwork_name }}"
+      name: "{{ webserver_subnet }}"
+      address_prefix_cidr: "{{ cidr_public_a }}"
