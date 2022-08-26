@@ -28,3 +28,19 @@ jobs:
       with:
         playbook: compute.yml
         directory: ./
+
+    - name: Run loadbalancer playbook
+      uses: dawidd6/action-ansible-playbook@v2
+      with:
+        playbook: loadbalancer.yml
+        directory: ./
+
+    - name: Run install compute playbook
+      uses: dawidd6/action-ansible-playbook@v2
+      with:
+        playbook: install_compute.yml
+        directory: ./
+        key: ~/.ssh/webserver
+        options:
+          --inventory inv.azure_rm.yml
+          --extra-vars "ansible_user=azureuser"
