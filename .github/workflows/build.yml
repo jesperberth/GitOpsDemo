@@ -14,15 +14,17 @@ jobs:
     - name: Run network playbook
       uses: dawidd6/action-ansible-playbook@v2
       with:
-        # Required, playbook filepath
         playbook: network.yml
-        # Optional, directory where playbooks live
         directory: ./
 
     - name: Run security playbook
       uses: dawidd6/action-ansible-playbook@v2
       with:
-        # Required, playbook filepath
         playbook: security.yml
-        # Optional, directory where playbooks live
+        directory: ./
+
+    - name: Run compute playbook
+      uses: dawidd6/action-ansible-playbook@v2
+      with:
+        playbook: compute.yml
         directory: ./

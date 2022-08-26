@@ -19,7 +19,6 @@ az sshkey create --location "northeurope" --public-key "@~/.ssh/webserver.pub" -
 ```bash
 ansible-playbook network.yml
 ansible-playbook security.yml
-ansible-playbook compute
 ansible-playbook compute.yml
 ansible-playbook loadbalancer.yml
 ansible-playbook -i inv.azure_rm.yml install_compute.yml --key-file ~/.ssh/webserver -e "ansible_user=azureuser"
