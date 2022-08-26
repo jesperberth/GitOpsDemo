@@ -40,7 +40,7 @@ jobs:
       with:
         playbook: install_compute.yml
         directory: ./
-        key: ~/.ssh/webserver
+        key: ${{secrets.SSH_PRIVATE_KEY}}
         options:
           --inventory inv.azure_rm.yml
           --extra-vars "ansible_user=azureuser"
