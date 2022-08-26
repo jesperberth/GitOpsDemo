@@ -1,0 +1,27 @@
+---
+- name: Azure Webserver Infrastructure - Security
+  hosts: localhost
+  vars:
+
+  tasks:
+  - azure_rm_securitygroup:
+      resource_group: "{{ resourcegroup }}"
+      name: "{{ webserver_nsg }}"
+      purge_rules: yes
+      rules:
+          - name: 'AllowSSH'
+            protocol: Tcp
+            source_address_prefix:
+              - '0.0.0.0/0'
+            destination_port_range: 22
+            access: Allow
+            priority: 101
+            direction: Inbound
+          - name: 'AllowHTTP'
+            protocol: Tcp
+            source_address_prefix:
+              - '0.0.0.0/0'
+            destination_port_range:
+              - 80
+            access: Allow
+            priority: 102

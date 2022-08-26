@@ -1,0 +1,42 @@
+---
+- name: Azure Webserver Compute Configuration
+  hosts: tag_Ansible_webserver
+  become: yes
+
+  tasks:
+  - name: Install Software
+    ansible.builtin.package:
+      name:
+        - git
+        - apache2
+      state: latest
+      update_cache: yes
+    become: yes
+
+  - name: Enable and start httpd
+    systemd:
+      name: apache2
+      state: started
+      enabled: yes
+
+  - name: Enable SSH in firewall
+    firewalld:
+      zone: public
+      service: ssh
+      permanent: yes
+      state: enabled
+    notify: reload firewall
+
+  - name: Enable http in firewall
+    firewalld:
+      zone: public
+      service: http
+      permanent: yes
+      state: enabled
+    notify: reload firewall
+
+  handlers:
+  - name: reload firewall
+    systemd:
+      name: firewalld
+      state: reloaded

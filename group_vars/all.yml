@@ -1,5 +1,7 @@
 ---
+
 # file: group_vars/all
+
 resourcegroup: "webserver"
 location: "northeurope"
 virtualnetwork_name: "webserver-net"
@@ -10,3 +12,9 @@ cidr_public_a: "10.0.1.0/24"
 availabilityset: "webserver_avail"
 webserver_nsg: "webserver_nsg"
 domain_sub: "web"
+adminUser: azureuser
+ssh_public_key: "{{lookup('file', '~/.ssh/webserver.pub') }}"
+computenodes:
+  - webserver1
+  - webserver2
+  - webserver3

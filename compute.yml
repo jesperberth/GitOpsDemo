@@ -1,0 +1,96 @@
+---
+- name: Azure Webserver Infrastructure - Compute
+  hosts: localhost
+  vars:
+
+  tasks:
+  - name: Create availability set
+    azure_rm_availabilityset:
+      name: "{{ availabilityset }}"
+      location: "{{ location }}"
+      resource_group: "{{ resourcegroup }}"
+      platform_update_domain_count: 5
+      platform_fault_domain_count: 3
+      sku: Aligned
+
+  - name: Create public ip address for webservers
+    azure_rm_publicipaddress:
+      resource_group: "{{ resourcegroup }}"
+      name: "{{ item }}_public_ip"
+      allocation_method: static
+    loop:
+      "{{ computenodes }}"
+    async: 1000
+    poll: 0
+    register: create_pub_ip
+
+  - name: Wait for public ip addresses
+    ansible.builtin.async_status:
+      jid: "{{ item.ansible_job_id }}"
+    register: job_result
+    until: job_result.finished
+    retries: 50
+    delay: 2
+    with_items: "{{ create_pub_ip.results }}"
+
+  - name: Create network interface for webservers
+    azure_rm_networkinterface:
+      name: "{{ item }}_nic01"
+      resource_group: "{{ resourcegroup }}"
+      virtual_network: "{{ virtualnetwork_name }}"
+      subnet_name: "{{ webserver_subnet }}"
+      security_group: "{{ webserver_nsg }}"
+      ip_configurations:
+        - name: "{{ item }}_nic01_ipconfig"
+          public_ip_address_name: "{{ item }}_public_ip"
+          primary: True
+    loop:
+      "{{ computenodes }}"
+    async: 1000
+    poll: 0
+    register: create_nic
+
+  - name: Wait for network interfaces
+    ansible.builtin.async_status:
+      jid: "{{ item.ansible_job_id }}"
+    register: job_result
+    until: job_result.finished
+    retries: 50
+    delay: 2
+    with_items: "{{ create_nic.results }}"
+
+  - name: Create Webserver VMs
+    azure_rm_virtualmachine:
+      resource_group: "{{ resourcegroup }}"
+      name: "{{ item }}"
+      vm_size: Standard_B1ms
+      os_type: Linux
+      availability_set: "{{ availabilityset }}"
+      managed_disk_type: Standard_LRS
+      admin_username: "{{ adminUser }}"
+      ssh_password_enabled: false
+      ssh_public_keys:
+        - path: "/home/{{ adminUser }}/.ssh/authorized_keys"
+          key_data: "{{ ssh_public_key }}"
+      network_interfaces: "{{ item }}_nic01"
+      image:
+        offer: 0001-com-ubuntu-server-focal
+        publisher: canonical
+        sku: 20_04-lts-gen2
+        version: latest
+      tags:
+          Ansible: "webserver"
+    loop:
+      "{{ computenodes }}"
+    async: 1000
+    poll: 0
+    register: create_compute
+
+  - name: Wait for compute
+    ansible.builtin.async_status:
+      jid: "{{ item.ansible_job_id }}"
+    register: job_result
+    until: job_result.finished
+    retries: 50
+    delay: 5
+    with_items: "{{ create_compute.results }}"

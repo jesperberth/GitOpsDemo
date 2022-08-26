@@ -1,17 +1,7 @@
 ---
-- name: Azure Webserver Infrastructure
+- name: Azure Webserver Infrastructure - Network
   hosts: localhost
   vars:
-#    resourcegroup: "webserver"
-#    location: "northeurope"
-#    virtualnetwork_name: "webserver-net"
-#    project_name: "ansible"
-#    cidr: "10.0.0.0/16"
-#    webserver_subnet: "webserver_subnet"
-#    cidr_public_a: "10.0.1.0/24"
-#    availabilityset: "webserver_avail"
-#    webserver_nsg: "webserver_nsg"
-#    domain_sub: "web"
 
   tasks:
   - name: create Resource Group
