@@ -13,30 +13,8 @@
       update_cache: yes
     become: yes
 
-  - name: Enable and start httpd
+  - name: Enable and start apache2
     systemd:
       name: apache2
       state: started
       enabled: yes
-
-  - name: Enable SSH in firewall
-    firewalld:
-      zone: public
-      service: ssh
-      permanent: yes
-      state: enabled
-    notify: reload firewall
-
-  - name: Enable http in firewall
-    firewalld:
-      zone: public
-      service: http
-      permanent: yes
-      state: enabled
-    notify: reload firewall
-
-  handlers:
-  - name: reload firewall
-    systemd:
-      name: firewalld
-      state: reloaded
