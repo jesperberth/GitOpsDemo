@@ -24,4 +24,5 @@ ansible-playbook loadbalancer.yml
 ansible-playbook -i inv.azure_rm.yml install_compute.yml --key-file ~/.ssh/webserver -e "ansible_user=azureuser"
 
 ```
+
 Test
