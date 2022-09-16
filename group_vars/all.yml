@@ -13,6 +13,6 @@ availabilityset: "webserver_avail"
 webserver_nsg: "webserver_nsg"
 domain_sub: "web"
 adminUser: azureuser
-ssh_public_key: "{{lookup('file', '~/.ssh/webserver.pub') }}"
+ssh_public_key: "{{lookup('file', '~/.ssh/server-key.pub') }}"
 computenodes:
   - webserver1
