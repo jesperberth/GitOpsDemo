@@ -25,5 +25,16 @@ ansible-playbook -i inv.azure_rm.yml install_compute.yml --key-file ~/.ssh/webse
 
 ```
 
-Test 3
+[https://nexxai.dev/store-a-private-key-in-azure-key-vault-for-use-in-a-logic-app/](https://nexxai.dev/store-a-private-key-in-azure-key-vault-for-use-in-a-logic-app/)
 
+[https://docs.microsoft.com/en-us/azure/developer/github/github-key-vault](https://docs.microsoft.com/en-us/azure/developer/github/github-key-vault)
+
+```bash
+{
+    "clientId": "<GUID>",
+    "clientSecret": "<GUID>",
+    "subscriptionId": "<GUID>",
+    "tenantId": "<GUID>"
+}
+
+```
