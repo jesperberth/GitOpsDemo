@@ -18,7 +18,7 @@ jobs:
     - uses: Azure/get-keyvault-secrets@v1
       with:
         keyvault: ${{secrets.AZURE_KEYVAULT}}
-        secrets: 'private-key'
+        secrets: 'server-key-priv'
       id: vault
 
     - name: Run network playbook
@@ -50,7 +50,7 @@ jobs:
       with:
         playbook: install_compute.yml
         directory: ./
-        key: ${{ steps.vault.outputs.private-key }}
+        key: ${{ steps.vault.outputs.server-key-priv }}
         options:
           --inventory inv.azure_rm.yml
           --extra-vars "ansible_user=azureuser"
