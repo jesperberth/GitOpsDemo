@@ -2,6 +2,8 @@
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/jesperberth/GitOpsDemo)
 
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/jesperberth/GitOpsDemo/build)
+
 ```bash
 
 Create keypair
