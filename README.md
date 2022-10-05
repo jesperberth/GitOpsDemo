@@ -1,5 +1,7 @@
 # GitOpsDemo
 
+![GitHub last commit](https://img.shields.io/github/last-commit/jesperberth/GitOpsDemo)
+
 ```bash
 
 Create keypair
