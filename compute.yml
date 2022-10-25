@@ -91,6 +91,6 @@
       jid: "{{ item.ansible_job_id }}"
     register: job_result
     until: job_result.finished
-    retries: 50
+    retries: 150
     delay: 5
     with_items: "{{ create_compute.results }}"
