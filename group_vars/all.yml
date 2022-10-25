@@ -16,5 +16,3 @@ adminUser: azureuser
 ssh_public_key: "{{lookup('file', '~/.ssh/server-key.pub') }}"
 computenodes:
   - webserver1
-  - webserver2
-
